@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import AddForm from './components/AddForm'
 import './App.less'
 import TaskList from './components/TaskList'
+import Footer from './components/Footer'
 import todos from './todos.json'
 
 function App() {
@@ -11,6 +12,8 @@ function App() {
     <div className="app">
       <AddForm />
       <TaskList tasks={tasks} />
+
+      <Footer />
     </div>
   )
 }

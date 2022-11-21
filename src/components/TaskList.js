@@ -5,6 +5,7 @@ function TaskList({ tasks }) {
     <ul className="taskList">
       {tasks.map((task) => (
         <TaskListItem
+          key={task.id}
           title={task.title}
           text={task.text}
           date={task.date}
