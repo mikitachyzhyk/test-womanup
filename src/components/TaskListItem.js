@@ -1,15 +1,24 @@
 import { useState } from 'react'
 
 function TaskListItem({
+  id,
   title = 'New task',
   text = 'Do smth!',
   date = 0,
   completed = false,
+  changeTaskCompletion,
+  removeTask,
 }) {
   const [done, setDone] = useState(completed)
 
   const handleDoneChange = (e) => {
     setDone(e.target.checked)
+
+    changeTaskCompletion(id, !done)
+  }
+
+  const handleRemove = () => {
+    removeTask(id)
   }
 
   const classes = `taskListItem${done ? ' taskListItem--done' : ''}`
@@ -27,7 +36,7 @@ function TaskListItem({
           done!
         </label>
       </div>
-      <button>X</button>
+      <button onClick={handleRemove}>X</button>
     </li>
   )
 }

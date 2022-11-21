@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 
-function AddForm() {
+function AddForm({ addNewTask }) {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [date, setDate] = useState('')
@@ -18,8 +18,17 @@ function AddForm() {
     setDate(e.target.value)
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    addNewTask(title, text, date)
+    setTitle('')
+    setText('')
+    setDate('')
+  }
+
   return (
-    <form className="form">
+    <form className="form" onSubmit={handleSubmit}>
       <legend>Add new task:</legend>
       <div className="formField">
         <label htmlFor="add-task-title">Title:</label>
@@ -28,11 +37,17 @@ function AddForm() {
           type="text"
           value={title}
           onChange={handleTitleChange}
+          required
         />
       </div>
       <div className="formField">
         <label htmlFor="add-task-text">Text:</label>
-        <textarea id="add-task-text" value={text} onChange={handleTextChange} />
+        <textarea
+          id="add-task-text"
+          value={text}
+          onChange={handleTextChange}
+          required
+        />
       </div>
       <div className="formAdditionalFields">
         <div className="formFieldDate">
@@ -42,6 +57,7 @@ function AddForm() {
             type="date"
             value={date}
             onChange={handleDateChange}
+            required
           />
         </div>
         <div className="formFieldFiles">
