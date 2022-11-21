@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import dayjs from 'dayjs'
 
 function TaskListItem({
   id,
@@ -29,7 +30,7 @@ function TaskListItem({
       <p>{text}</p>
       <div className="taskListItemBottom">
         <div>
-          <span>{date}</span> / <span>files</span>
+          <span>{dayjs(date).format('DD MMM YY')}</span> / <span>files</span>
         </div>
         <label>
           <input type="checkbox" checked={done} onChange={handleDoneChange} />{' '}
