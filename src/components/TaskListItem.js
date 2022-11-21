@@ -1,7 +1,12 @@
 import { useState } from 'react'
 
-function TaskListItem({ title, text, date }) {
-  const [done, setDone] = useState(false)
+function TaskListItem({
+  title = 'New task',
+  text = 'Do smth!',
+  date = 0,
+  completed = false,
+}) {
+  const [done, setDone] = useState(completed)
 
   const handleDoneChange = (e) => {
     setDone(e.target.checked)

@@ -1,9 +1,16 @@
 import TaskListItem from './TaskListItem'
 
-function TaskList() {
+function TaskList({ tasks }) {
   return (
     <ul className="taskList">
-      <TaskListItem />
+      {tasks.map((task) => (
+        <TaskListItem
+          title={task.title}
+          text={task.text}
+          date={task.date}
+          completed={task.completed}
+        />
+      ))}
     </ul>
   )
 }
