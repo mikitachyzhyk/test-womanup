@@ -76,12 +76,18 @@ function TaskListItem({
         {editing ? (
           <input type="date" value={editDate} onChange={editDateHandler} />
         ) : (
-          <span>{dayjs(date).format('DD MMM YY')}</span>
+          <>
+            <span>{dayjs(date).format('DD MMM YY')}</span>
+            <label>
+              <input
+                type="checkbox"
+                checked={done}
+                onChange={handleDoneChange}
+              />{' '}
+              done!
+            </label>
+          </>
         )}
-        <label>
-          <input type="checkbox" checked={done} onChange={handleDoneChange} />{' '}
-          done!
-        </label>
       </div>
       {editing ? (
         <>
@@ -91,7 +97,8 @@ function TaskListItem({
       ) : (
         <button onClick={handleEdit}>Edit</button>
       )}
-      <button onClick={handleRemove}>X</button>
+
+      {!editing && <button onClick={handleRemove}>X</button>}
 
       {uploadedFiles.length > 0 && (
         <div className="taskListItemFiles">
