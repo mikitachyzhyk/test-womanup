@@ -1,6 +1,6 @@
 import TaskListItem from './TaskListItem'
 
-function TaskList({ tasks, changeTaskCompletion, removeTask }) {
+function TaskList({ tasks, changeTaskCompletion, changeTask, removeTask }) {
   return (
     <ul className="taskList">
       {tasks.map((task) => (
@@ -12,6 +12,7 @@ function TaskList({ tasks, changeTaskCompletion, removeTask }) {
           date={task.date}
           completed={task.completed}
           changeTaskCompletion={changeTaskCompletion}
+          changeTask={changeTask}
           removeTask={removeTask}
         />
       ))}

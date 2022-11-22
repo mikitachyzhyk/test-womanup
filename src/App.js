@@ -25,12 +25,21 @@ function App() {
     // TODO: change all filelds (title, text, date)
   }
 
+  const changeTask = (id, title, text, date) => {
+    setTasks((tasks) =>
+      tasks.map((task) =>
+        task.id === id ? { ...task, title, text, date } : task
+      )
+    )
+  }
+
   return (
     <div className="app">
       <AddForm addNewTask={addNewTask} />
       <TaskList
         tasks={tasks}
         changeTaskCompletion={changeTaskCompletion}
+        changeTask={changeTask}
         removeTask={removeTask}
       />
 
