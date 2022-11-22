@@ -104,7 +104,6 @@ export const deleteTodo = async (id, files = null) => {
     await deleteDoc(doc(db, 'todos', id))
 
     if (files) {
-      // TODD: delete files
       deleteFiles(files)
     }
 
