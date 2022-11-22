@@ -51,8 +51,9 @@ function TaskListItem({
     new Date(date).setHours(0, 0, 0, 0) <
     new Date(Date.now()).setHours(0, 0, 0, 0)
 
-  let classes = `taskListItem${done ? ' taskListItem--done' : ''}`
-  classes += isExpired ? ' taskListItem--expired' : ''
+  const classes = `taskListItem${
+    done ? ' taskListItem--done' : isExpired ? ' taskListItem--expired' : ''
+  }`
 
   return (
     <li className={classes}>

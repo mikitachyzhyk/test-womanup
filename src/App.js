@@ -1,12 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddForm from './components/AddForm'
 import './App.less'
 import TaskList from './components/TaskList'
 import Footer from './components/Footer'
-import todos from './todos.json'
+import { getTodos } from './firebase'
 
 function App() {
-  const [tasks, setTasks] = useState(todos)
+  const [tasks, setTasks] = useState(null)
+
+  useEffect(() => {
+    getTodos()
+      .then((todos) => {
+        setTasks(todos)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   const addNewTask = (title, text, date) => {
     setTasks((tasks) => [{ id: Date.now(), title, text, date }, ...tasks])
@@ -22,7 +32,6 @@ function App() {
         task.id === id ? { ...task, completed: isCompleted } : task
       )
     )
-    // TODO: change all filelds (title, text, date)
   }
 
   const changeTask = (id, title, text, date) => {
@@ -36,6 +45,7 @@ function App() {
   return (
     <div className="app">
       <AddForm addNewTask={addNewTask} />
+
       <TaskList
         tasks={tasks}
         changeTaskCompletion={changeTaskCompletion}

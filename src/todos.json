@@ -1,16 +1,18 @@
-[
-  {
-    "id": 2,
-    "title": "Todo #2",
-    "text": "Todo do do...",
-    "date": 1669036558752,
-    "completed": false
-  },
-  {
-    "id": 1,
-    "title": "Todo #1",
-    "text": "Todo do do...",
-    "date": 1669036558752,
-    "completed": true
-  }
-]
+{
+  "todos": [
+    {
+      "id": 2,
+      "title": "Todo #2",
+      "text": "Todo do do...",
+      "date": "2022-11-23",
+      "completed": false
+    },
+    {
+      "id": 1,
+      "title": "Todo #1",
+      "text": "Todo do do...",
+      "date": "2022-11-21",
+      "completed": true
+    }
+  ]
+}
