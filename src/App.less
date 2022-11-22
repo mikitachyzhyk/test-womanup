@@ -1,10 +1,27 @@
-@bg2: lightgray;
+@bg2: gray;
 
 .app {
   padding: 30px;
   max-width: 500px;
   margin: 30px auto;
   background: @bg2;
+
+  &--loading {
+    position: relative;
+
+    &::after {
+      content: 'Loading...';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(gray, 0.8);
+    }
+  }
 }
 
 /* Add Form */

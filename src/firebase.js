@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app'
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { getFirestore } from 'firebase/firestore'
 import {
   collection,
@@ -22,6 +23,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
+const storage = getStorage(app)
 
 export const getTodos = async () => {
   const querySnapshot = await getDocs(collection(db, 'todos'))
@@ -34,16 +36,45 @@ export const getTodos = async () => {
   return todos
 }
 
-export const addNewTodo = async (title, text, date) => {
+const uploadFiles = async (files) => {
+  console.log(files)
+  if (!files || files.length === 0) return []
+
+  const filesUrls = []
+
+  for (const file of files) {
+    const imageRef = ref(storage, `${file.name}_${Date.now()}`)
+    const snapshot = await uploadBytes(imageRef, file)
+
+    const url = await getDownloadURL(snapshot.ref)
+
+    filesUrls.push(url)
+  }
+
+  return filesUrls
+}
+
+export const addNewTodo = async (title, text, date, files) => {
+  let uploadedFiles
+
+  try {
+    uploadedFiles = await uploadFiles(files)
+  } catch (e) {
+    console.error('Error uploading files: ', e)
+  }
+
   try {
     const docRef = await addDoc(collection(db, 'todos'), {
       title,
       text,
       date,
       completed: false,
+      uploadedFiles,
     })
 
     console.log('Document written with ID: ', docRef.id)
+
+    return true
   } catch (e) {
     console.error('Error adding document: ', e)
   }
@@ -54,6 +85,8 @@ export const deleteTodo = async (id) => {
     await deleteDoc(doc(db, 'todos', id))
 
     console.log('Document deleted')
+
+    return true
   } catch (e) {
     console.error('Error deleting document: ', e)
   }
@@ -70,6 +103,8 @@ export const updateTodo = async (id, title, text, date) => {
     })
 
     console.log('Document updated')
+
+    return true
   } catch (e) {
     console.error('Error updating document: ', e)
   }
@@ -85,6 +120,8 @@ export const updateTodoCompletion = async (id, isCompleted) => {
     })
 
     console.log('Document updated')
+
+    return true
   } catch (e) {
     console.error('Error updating document: ', e)
   }

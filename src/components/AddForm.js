@@ -4,6 +4,8 @@ function AddForm({ addNewTask }) {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
   const [date, setDate] = useState('')
+  const [files, setFiles] = useState(null)
+
   const filesInputEl = useRef(null)
 
   const handleTitleChange = (e) => {
@@ -21,10 +23,15 @@ function AddForm({ addNewTask }) {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    addNewTask(title, text, date)
+    addNewTask(title, text, date, files)
     setTitle('')
     setText('')
     setDate('')
+    setFiles(null)
+  }
+
+  const handleFileChange = (e) => {
+    setFiles(e.target.files)
   }
 
   return (
@@ -61,7 +68,12 @@ function AddForm({ addNewTask }) {
           />
         </div>
         <div className="formFieldFiles">
-          <input type="file" multiple ref={filesInputEl} />
+          <input
+            type="file"
+            multiple
+            ref={filesInputEl}
+            onChange={handleFileChange}
+          />
         </div>
       </div>
       <button className="formBtn">Add task</button>

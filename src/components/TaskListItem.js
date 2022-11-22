@@ -47,6 +47,10 @@ function TaskListItem({
     setEditing(false)
   }
 
+  const handleCancel = () => {
+    setEditing(false)
+  }
+
   const isExpired =
     new Date(date).setHours(0, 0, 0, 0) <
     new Date(Date.now()).setHours(0, 0, 0, 0)
@@ -82,7 +86,10 @@ function TaskListItem({
         </label>
       </div>
       {editing ? (
-        <button onClick={handleSave}>Save</button>
+        <>
+          <button onClick={handleSave}>Save</button>
+          <button onClick={handleCancel}>Cancel</button>
+        </>
       ) : (
         <button onClick={handleEdit}>Edit</button>
       )}

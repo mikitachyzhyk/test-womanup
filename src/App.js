@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import AddForm from './components/AddForm'
 import './App.less'
+import AddForm from './components/AddForm'
 import TaskList from './components/TaskList'
 import Footer from './components/Footer'
 import {
@@ -13,50 +13,52 @@ import {
 
 function App() {
   const [tasks, setTasks] = useState(null)
+  const [reload, setReload] = useState(true)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    getTodos()
-      .then((todos) => {
-        setTasks(todos)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+    if (reload) {
+      getTodos()
+        .then((todos) => {
+          setTasks(todos)
+          setReload(false)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    } else {
+      setLoading(false)
+    }
+  }, [reload])
 
-  const addNewTask = (title, text, date) => {
-    setTasks((tasks) => [{ id: Date.now(), title, text, date }, ...tasks])
-    addNewTodo(title, text, date)
+  const addNewTask = async (title, text, date, files) => {
+    setLoading(true)
+    const added = await addNewTodo(title, text, date, files)
+    if (added) setReload(true)
   }
 
-  const removeTask = (id) => {
-    setTasks((tasks) => tasks.filter((task) => task.id !== id))
-
-    deleteTodo(id)
+  const removeTask = async (id) => {
+    setLoading(true)
+    const removed = await deleteTodo(id)
+    if (removed) setReload(true)
   }
 
-  const changeTaskCompletion = (id, isCompleted) => {
-    setTasks((tasks) =>
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: isCompleted } : task
-      )
-    )
-
-    updateTodoCompletion(id, isCompleted)
+  const changeTaskCompletion = async (id, isCompleted) => {
+    setLoading(true)
+    const updated = await updateTodoCompletion(id, isCompleted)
+    if (updated) setReload(true)
   }
 
-  const changeTask = (id, title, text, date) => {
-    setTasks((tasks) =>
-      tasks.map((task) =>
-        task.id === id ? { ...task, title, text, date } : task
-      )
-    )
-
-    updateTodo(id, title, text, date)
+  const changeTask = async (id, title, text, date) => {
+    setLoading(true)
+    const updated = await updateTodo(id, title, text, date)
+    if (updated) setReload(true)
   }
+
+  const classes = `app${loading ? ' app--loading' : ''}`
 
   return (
-    <div className="app">
+    <div className={classes}>
       <AddForm addNewTask={addNewTask} />
 
       <TaskList
