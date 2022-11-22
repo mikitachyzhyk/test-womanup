@@ -98,7 +98,7 @@ function TaskListItem({
           <span>Uploaded Files:</span>
           <ul>
             {uploadedFiles.map((fileUrl, i) => (
-              <li>
+              <li key={i}>
                 <a
                   href={fileUrl}
                   target="_blank"

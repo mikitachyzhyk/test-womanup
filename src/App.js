@@ -39,7 +39,16 @@ function App() {
 
   const removeTask = async (id) => {
     setLoading(true)
-    const removed = await deleteTodo(id)
+
+    let removed
+    const task = tasks.find((task) => task.id === id)
+
+    if (task.uploadedFiles.length > 0) {
+      removed = await deleteTodo(id, task.uploadedFiles)
+    } else {
+      removed = await deleteTodo(id)
+    }
+
     if (removed) setReload(true)
   }
 

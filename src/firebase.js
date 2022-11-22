@@ -1,5 +1,11 @@
 import { initializeApp } from 'firebase/app'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage'
 import { getFirestore } from 'firebase/firestore'
 import {
   collection,
@@ -37,7 +43,6 @@ export const getTodos = async () => {
 }
 
 const uploadFiles = async (files) => {
-  console.log(files)
   if (!files || files.length === 0) return []
 
   const filesUrls = []
@@ -52,6 +57,20 @@ const uploadFiles = async (files) => {
   }
 
   return filesUrls
+}
+
+const deleteFiles = async (files) => {
+  for (const file of files) {
+    const desertRef = ref(storage, file)
+
+    deleteObject(desertRef)
+      .then(() => {
+        console.log('File deleted successfully')
+      })
+      .catch((e) => {
+        console.error('Error deleting files: ', e)
+      })
+  }
 }
 
 export const addNewTodo = async (title, text, date, files) => {
@@ -80,9 +99,14 @@ export const addNewTodo = async (title, text, date, files) => {
   }
 }
 
-export const deleteTodo = async (id) => {
+export const deleteTodo = async (id, files = null) => {
   try {
     await deleteDoc(doc(db, 'todos', id))
+
+    if (files) {
+      // TODD: delete files
+      deleteFiles(files)
+    }
 
     console.log('Document deleted')
 
