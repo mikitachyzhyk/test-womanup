@@ -21,6 +21,7 @@ function TaskList({ tasks, changeTaskCompletion, changeTask, removeTask }) {
                 title={task.title}
                 text={task.text}
                 date={task.date}
+                uploadedFiles={task.uploadedFiles}
                 completed={task.completed}
                 changeTaskCompletion={changeTaskCompletion}
                 changeTask={changeTask}

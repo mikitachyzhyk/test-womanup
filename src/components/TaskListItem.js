@@ -6,6 +6,7 @@ function TaskListItem({
   title = 'New task',
   text = 'Do smth!',
   date = 0,
+  uploadedFiles = [],
   completed = false,
   changeTaskCompletion,
   changeTask,
@@ -72,14 +73,11 @@ function TaskListItem({
         <p>{text}</p>
       )}
       <div className="taskListItemBottom">
-        <div>
-          {editing ? (
-            <input type="date" value={editDate} onChange={editDateHandler} />
-          ) : (
-            <span>{dayjs(date).format('DD MMM YY')}</span>
-          )}{' '}
-          / <span>files</span>
-        </div>
+        {editing ? (
+          <input type="date" value={editDate} onChange={editDateHandler} />
+        ) : (
+          <span>{dayjs(date).format('DD MMM YY')}</span>
+        )}
         <label>
           <input type="checkbox" checked={done} onChange={handleDoneChange} />{' '}
           done!
@@ -94,6 +92,25 @@ function TaskListItem({
         <button onClick={handleEdit}>Edit</button>
       )}
       <button onClick={handleRemove}>X</button>
+
+      {uploadedFiles.length > 0 && (
+        <div className="taskListItemFiles">
+          <span>Uploaded Files:</span>
+          <ul>
+            {uploadedFiles.map((fileUrl, i) => (
+              <li>
+                <a
+                  href={fileUrl}
+                  target="_blank"
+                  rel="noreferrer noopener nofollow"
+                >
+                  Attachment-{i + 1}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </li>
   )
 }
