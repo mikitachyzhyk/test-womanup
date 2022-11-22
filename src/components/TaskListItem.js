@@ -47,7 +47,12 @@ function TaskListItem({
     setEditing(false)
   }
 
-  const classes = `taskListItem${done ? ' taskListItem--done' : ''}`
+  const isExpired =
+    new Date(date).setHours(0, 0, 0, 0) <
+    new Date(Date.now()).setHours(0, 0, 0, 0)
+
+  let classes = `taskListItem${done ? ' taskListItem--done' : ''}`
+  classes += isExpired ? ' taskListItem--expired' : ''
 
   return (
     <li className={classes}>
