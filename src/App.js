@@ -11,6 +11,11 @@ import {
   updateTodoCompletion,
 } from './firebase'
 
+/**
+ * The main component of the application
+ *
+ * @component
+ */
 function App() {
   const [tasks, setTasks] = useState(null)
   const [reload, setReload] = useState(true)
@@ -31,12 +36,31 @@ function App() {
     }
   }, [reload])
 
+  /**
+   * Passes parameters to a function that adds new todo to data store
+   * @async
+   *
+   * @param {string} title The Todo title
+   * @param {string} text The Todo description
+   * @param {string} date The Todo date
+   * @param {FileList} files Collection of files of type File
+   *
+   * @returns {void}
+   */
   const addNewTask = async (title, text, date, files) => {
     setLoading(true)
     const added = await addNewTodo(title, text, date, files)
     if (added) setReload(true)
   }
 
+  /**
+   * Passes parameters to a function that remove todo from data store
+   * @async
+   *
+   * @param {string} id The Todo id
+   *
+   * @returns {void}
+   */
   const removeTask = async (id) => {
     setLoading(true)
 
@@ -52,12 +76,35 @@ function App() {
     if (removed) setReload(true)
   }
 
+  /**
+   * Passes parameters to a function that changes the completion status of todo in data store
+   * @async
+   *
+   * @param {string} id The Todo id
+   * @param {boolean} isCompleted The Todo completion status
+   *
+   * @returns {void}
+   */
   const changeTaskCompletion = async (id, isCompleted) => {
     setLoading(true)
     const updated = await updateTodoCompletion(id, isCompleted)
     if (updated) setReload(true)
   }
 
+  /**
+   * Passes parameters to a function that modifies todo in data store
+   * @async
+   *
+   * @param {string} id The Todo id
+   * @param {string} title The Todo title
+   * @param {string} text The Todo description
+   * @param {string} date The Todo date
+   * @param {Array} editFiles Array of URLs of files left after deletion
+   * @param {Array} newFiles Array of URLs of new files
+   * @param {Array} removeFiles Array of URLs of files to be removed
+   *
+   * @returns {void}
+   */
   const changeTask = async (
     id,
     title,

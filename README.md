@@ -1,5 +1,5 @@
 TODO:
 
-- [ ] editing files
-- [ ] comment code
+- [x] editing files
+- [x] comment code
 - [ ] clean ui

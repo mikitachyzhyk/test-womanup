@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import dayjs from 'dayjs'
 
+/**
+ * Component for a single Todo item
+ *
+ * @component
+ */
 function TaskListItem({
   id,
   title = 'New task',
@@ -14,7 +19,6 @@ function TaskListItem({
 }) {
   const [done, setDone] = useState(completed)
   const [editing, setEditing] = useState(false)
-
   const [editTitle, setEditTitle] = useState(title)
   const [editText, setEditText] = useState(text)
   const [editDate, setEditDate] = useState(dayjs(date).format('YYYY-MM-DD'))
@@ -25,14 +29,16 @@ function TaskListItem({
 
   useEffect(() => {
     if (uploadedFiles.length !== editFiles.length) setEditFiles(uploadedFiles)
-  }, [uploadedFiles])
+  }, [uploadedFiles, editFiles])
 
   const editTitleHandler = (e) => {
     setEditTitle(e.target.value)
   }
+
   const editTextHandler = (e) => {
     setEditText(e.target.value)
   }
+
   const editDateHandler = (e) => {
     setEditDate(e.target.value)
   }

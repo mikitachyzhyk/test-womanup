@@ -1,6 +1,11 @@
 import Loader from './Loader'
 import TaskListItem from './TaskListItem'
 
+/**
+ * Component for list of Todo items
+ *
+ * @component
+ */
 function TaskList({ tasks, changeTaskCompletion, changeTask, removeTask }) {
   return (
     <ul className="taskList">

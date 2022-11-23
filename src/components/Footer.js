@@ -1,3 +1,8 @@
+/**
+ * Component for additional information in the application footer
+ *
+ * @component
+ */
 function Footer() {
   return (
     <footer className="footer">

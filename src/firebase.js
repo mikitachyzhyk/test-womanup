@@ -10,7 +10,6 @@ import { getFirestore } from 'firebase/firestore'
 import {
   collection,
   getDocs,
-  getDoc,
   addDoc,
   doc,
   deleteDoc,
@@ -32,6 +31,12 @@ const app = initializeApp(firebaseConfig)
 const db = getFirestore(app)
 const storage = getStorage(app)
 
+/**
+ * Get Todos from Firebase Firestore.
+ * @async
+ *
+ * @return {Array} Array of todos
+ */
 export const getTodos = async () => {
   const querySnapshot = await getDocs(collection(db, 'todos'))
   const todos = []
@@ -43,6 +48,14 @@ export const getTodos = async () => {
   return todos
 }
 
+/**
+ * Upload files to Firebase Storage.
+ * @async
+ *
+ * @param {FileList} files Collection of files of type File
+ *
+ * @return {Array} Array of file urls
+ */
 const uploadFiles = async (files) => {
   if (!files || files.length === 0) return []
 
@@ -60,6 +73,14 @@ const uploadFiles = async (files) => {
   return filesUrls
 }
 
+/**
+ * Delete files from Firebase Storage.
+ * @async
+ *
+ * @param {Array} files Array of URLs of files
+ *
+ * @returns {void}
+ */
 const deleteFiles = async (files) => {
   for (const file of files) {
     const desertRef = ref(storage, file)
@@ -74,6 +95,17 @@ const deleteFiles = async (files) => {
   }
 }
 
+/**
+ * Add new Todo to Firebase Firestore.
+ * @async
+ *
+ * @param {string} title The Todo title
+ * @param {string} text The Todo description
+ * @param {string} date The Todo date
+ * @param {FileList} files Collection of files of type File
+ *
+ * @returns {boolean} Returns true if todo addition was successful, or false if not
+ */
 export const addNewTodo = async (title, text, date, files) => {
   let uploadedFiles
 
@@ -97,9 +129,20 @@ export const addNewTodo = async (title, text, date, files) => {
     return true
   } catch (e) {
     console.error('Error adding document: ', e)
+
+    return false
   }
 }
 
+/**
+ * Delete Todo from Firebase Firestore.
+ * @async
+ *
+ * @param {string} id The Todo id
+ * @param {Array} [files=null] Optional Array of URLs of files
+ *
+ * @returns {boolean} Returns true if todo deletion was successful, or false if not
+ */
 export const deleteTodo = async (id, files = null) => {
   try {
     await deleteDoc(doc(db, 'todos', id))
@@ -113,9 +156,24 @@ export const deleteTodo = async (id, files = null) => {
     return true
   } catch (e) {
     console.error('Error deleting document: ', e)
+    return false
   }
 }
 
+/**
+ * Update Todo from Firebase Firestore.
+ * @async
+ *
+ * @param {string} id The Todo id
+ * @param {string} title The Todo title
+ * @param {string} text The Todo description
+ * @param {string} date The Todo date
+ * @param {Array} editFiles Array of URLs of files left after deletion
+ * @param {Array} newFiles Array of URLs of new files
+ * @param {Array} removeFiles Array of URLs of files to be removed
+ *
+ * @returns {boolean} Returns true if the todo update was successful, or false if not
+ */
 export const updateTodo = async (
   id,
   title,
@@ -154,9 +212,19 @@ export const updateTodo = async (
     return true
   } catch (e) {
     console.error('Error updating document: ', e)
+    return false
   }
 }
 
+/**
+ * Update Todo from Firebase Firestore.
+ * @async
+ *
+ * @param {string} id The Todo id
+ * @param {boolean} isCompleted The Todo completion status
+ *
+ * @returns {boolean} Returns true if the todo update was successful, or false if not
+ */
 export const updateTodoCompletion = async (id, isCompleted) => {
   const ref = doc(db, 'todos', id)
 
@@ -171,5 +239,6 @@ export const updateTodoCompletion = async (id, isCompleted) => {
     return true
   } catch (e) {
     console.error('Error updating document: ', e)
+    return false
   }
 }

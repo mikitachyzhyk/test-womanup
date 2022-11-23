@@ -1,5 +1,10 @@
 import { useRef, useState } from 'react'
 
+/**
+ * Component for adding a new Todo item
+ *
+ * @component
+ */
 function AddForm({ addNewTask }) {
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
