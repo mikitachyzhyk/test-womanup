@@ -9,7 +9,6 @@ import {
   deleteTodo,
   updateTodo,
   updateTodoCompletion,
-  updateTodoFileList,
 } from './firebase'
 
 function App() {
@@ -59,16 +58,26 @@ function App() {
     if (updated) setReload(true)
   }
 
-  const changeTask = async (id, title, text, date) => {
+  const changeTask = async (
+    id,
+    title,
+    text,
+    date,
+    editFiles,
+    newFiles,
+    removeFiles
+  ) => {
     setLoading(true)
-    const updated = await updateTodo(id, title, text, date)
+    const updated = await updateTodo(
+      id,
+      title,
+      text,
+      date,
+      editFiles,
+      newFiles,
+      removeFiles
+    )
     if (updated) setReload(true)
-  }
-
-  const removeFile = async (id, fileUrl) => {
-    setLoading(true)
-    const removed = await updateTodoFileList(id, fileUrl)
-    if (removed) setReload(true)
   }
 
   const classes = `app${loading ? ' app--loading' : ''}`
@@ -82,7 +91,6 @@ function App() {
         changeTaskCompletion={changeTaskCompletion}
         changeTask={changeTask}
         removeTask={removeTask}
-        removeFile={removeFile}
       />
 
       <Footer />

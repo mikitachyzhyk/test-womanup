@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import dayjs from 'dayjs'
 
 function TaskListItem({
@@ -11,7 +11,6 @@ function TaskListItem({
   changeTaskCompletion,
   changeTask,
   removeTask,
-  removeFile,
 }) {
   const [done, setDone] = useState(completed)
   const [editing, setEditing] = useState(false)
@@ -19,6 +18,14 @@ function TaskListItem({
   const [editTitle, setEditTitle] = useState(title)
   const [editText, setEditText] = useState(text)
   const [editDate, setEditDate] = useState(dayjs(date).format('YYYY-MM-DD'))
+  const [editFiles, setEditFiles] = useState(uploadedFiles)
+  const [newFiles, setNewFiles] = useState(null)
+  const [removeFiles, setRemoveFiles] = useState([])
+  const filesInputEl = useRef(null)
+
+  useEffect(() => {
+    if (uploadedFiles.length !== editFiles.length) setEditFiles(uploadedFiles)
+  }, [uploadedFiles])
 
   const editTitleHandler = (e) => {
     setEditTitle(e.target.value)
@@ -45,16 +52,31 @@ function TaskListItem({
   }
 
   const handleSave = () => {
-    changeTask(id, editTitle, editText, editDate)
+    changeTask(
+      id,
+      editTitle,
+      editText,
+      editDate,
+      editFiles,
+      newFiles,
+      removeFiles
+    )
     setEditing(false)
+    setRemoveFiles([])
   }
 
   const handleCancel = () => {
     setEditing(false)
+    setEditFiles(uploadedFiles)
   }
 
   const handleFileRemove = (fileUrl) => {
-    removeFile(id, fileUrl)
+    setRemoveFiles((files) => [...files, fileUrl])
+    setEditFiles((files) => files.filter((file) => file !== fileUrl))
+  }
+
+  const handleFileChange = (e) => {
+    setNewFiles(e.target.files)
   }
 
   const isExpired =
@@ -105,29 +127,44 @@ function TaskListItem({
 
       {!editing && <button onClick={handleRemove}>X</button>}
 
-      {uploadedFiles.length > 0 && (
-        <div className="taskListItemFiles">
-          <span>Uploaded Files:</span>
-          <ul>
-            {uploadedFiles.map((fileUrl, i) => (
-              <li key={i}>
-                <a
-                  href={fileUrl}
-                  target="_blank"
-                  rel="noreferrer noopener nofollow"
-                >
-                  Attachment-{i + 1}
-                </a>{' '}
-                {editing && (
-                  <button onClick={() => handleFileRemove(fileUrl)}>X</button>
-                )}
-              </li>
-            ))}
-          </ul>
+      <div className="taskListItemFiles">
+        {editFiles.length > 0 && (
+          <>
+            <span>Uploaded Files:</span>
+            <ul>
+              {editFiles.map((fileUrl, i) => (
+                <li key={i}>
+                  <a
+                    href={fileUrl}
+                    target="_blank"
+                    rel="noreferrer noopener nofollow"
+                  >
+                    Attachment-{i + 1}
+                  </a>{' '}
+                  {editing && (
+                    <button
+                      onClick={() => {
+                        handleFileRemove(fileUrl)
+                      }}
+                    >
+                      X
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
 
-          {editing && <input type="file" />}
-        </div>
-      )}
+        {editing && (
+          <input
+            type="file"
+            multiple
+            ref={filesInputEl}
+            onChange={handleFileChange}
+          />
+        )}
+      </div>
     </li>
   )
 }
