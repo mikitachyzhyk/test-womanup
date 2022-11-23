@@ -100,40 +100,33 @@ function TaskListItem({
       ) : (
         <h3>{title}</h3>
       )}
+
       {editing ? (
         <textarea onChange={editTextHandler} value={editText} />
       ) : (
         <p>{text}</p>
       )}
-      <div className="taskListItemBottom">
-        {editing ? (
-          <input type="date" value={editDate} onChange={editDateHandler} />
-        ) : (
-          <>
-            <span>{dayjs(date).format('DD MMM YY')}</span>
-            <label>
-              <input
-                type="checkbox"
-                checked={done}
-                onChange={handleDoneChange}
-              />{' '}
-              done!
-            </label>
-          </>
-        )}
-      </div>
+
       {editing ? (
-        <>
+        <div className="taskListItem__Btns">
           <button onClick={handleSave}>Save</button>
           <button onClick={handleCancel}>Cancel</button>
-        </>
+        </div>
       ) : (
-        <button onClick={handleEdit}>Edit</button>
+        <div className="taskListItem__Btns">
+          <button onClick={handleEdit}>Edit</button>
+        </div>
       )}
 
-      {!editing && <button onClick={handleRemove}>X</button>}
+      {!editing && (
+        <button
+          className="removeBtn taskListItem__removeBtn"
+          onClick={handleRemove}
+          title="close"
+        ></button>
+      )}
 
-      <div className="taskListItemFiles">
+      <div className="taskListItem__Files">
         {editFiles.length > 0 && (
           <>
             <span>Uploaded Files:</span>
@@ -149,12 +142,12 @@ function TaskListItem({
                   </a>{' '}
                   {editing && (
                     <button
+                      className="removeBtn removeBtn--small"
                       onClick={() => {
                         handleFileRemove(fileUrl)
                       }}
-                    >
-                      X
-                    </button>
+                      title="remove"
+                    ></button>
                   )}
                 </li>
               ))}
@@ -169,6 +162,27 @@ function TaskListItem({
             ref={filesInputEl}
             onChange={handleFileChange}
           />
+        )}
+      </div>
+
+      <div className="taskListItem__Bottom">
+        {editing ? (
+          <input type="date" value={editDate} onChange={editDateHandler} />
+        ) : (
+          <>
+            <span className="taskListItem__Date">
+              {dayjs(date).format('DD MMM YY')}
+            </span>
+            <div className="taskListItem__Done">
+              <input
+                id={'done-' + id}
+                type="checkbox"
+                checked={done}
+                onChange={handleDoneChange}
+              />
+              <label htmlFor={'done-' + id}>done!</label>
+            </div>
+          </>
         )}
       </div>
     </li>

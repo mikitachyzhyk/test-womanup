@@ -62,7 +62,7 @@ function AddForm({ addNewTask }) {
         />
       </div>
       <div className="formAdditionalFields">
-        <div className="formFieldDate">
+        <div className="formField__Date">
           <label htmlFor="add-task-date">Expiry Date:</label>
           <input
             id="add-task-date"
@@ -72,7 +72,7 @@ function AddForm({ addNewTask }) {
             required
           />
         </div>
-        <div className="formFieldFiles">
+        <div className="formField__Files">
           <input
             type="file"
             multiple

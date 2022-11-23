@@ -1,10 +1,110 @@
-@bg2: lightgray;
+@bg1: #e7e9eb;
+@bg2: white;
+@accent: #3259f2;
+@danger: #fa5057;
+@success: #00b75b;
+@white: white;
+@color: #333;
+@focusBg: #ebeffe;
+@focusColor: @accent;
+@inputBg: #f6f8fa;
+@brs: 3px;
+@fontFamily: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: @fontFamily;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: @bg1;
+  color: @color;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+input,
+textarea {
+  font-family: @fontFamily;
+  color: @color;
+  &:focus {
+    outline: none;
+    background-color: @focusBg !important;
+  }
+}
+
+button,
+input::file-selector-button {
+  padding: 5px 10px;
+  font-size: 0.9em;
+  background: @accent;
+  color: @white;
+  border: none;
+  border-radius: @brs;
+}
+
+button {
+  box-shadow: 2px 2px 0 rgba(@accent, 0.2);
+  cursor: pointer;
+
+  &:active {
+    box-shadow: none;
+    transform: translate(1px, 1px);
+  }
+}
+
+.removeBtn {
+  position: relative;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: @danger;
+
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    top: 11px;
+    left: 6px;
+    width: 12px;
+    height: 2px;
+    background: white;
+  }
+
+  &::after {
+    transform: rotate(45deg);
+  }
+  &::before {
+    transform: rotate(-45deg);
+  }
+
+  &--small {
+    width: 18px;
+    height: 18px;
+    &::after,
+    &::before {
+      top: 8px;
+      left: 4px;
+      width: 10px;
+    }
+  }
+}
+
+/* App */
 
 .app {
-  padding: 30px;
   max-width: 500px;
   margin: 30px auto;
-  background: @bg2;
 
   &--loading {
     position: relative;
@@ -19,20 +119,28 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: rgba(gray, 0.8);
+      font-size: 0.9em;
+      background: rgba(@bg1, 0.9);
     }
   }
+}
+
+/* Loader */
+
+.loader {
+  font-size: 0.9em;
 }
 
 /* Add Form */
 
 .form {
+  padding: 30px;
   margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid black;
+  background: @bg2;
+  border-radius: @brs;
 
   legend {
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: bold;
     margin-bottom: 15px;
   }
@@ -43,7 +151,8 @@
 
   label {
     display: block;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
+    font-size: 0.9em;
   }
 
   input,
@@ -51,6 +160,8 @@
     width: 100%;
     padding: 10px;
     border: none;
+    background: @inputBg;
+    border-radius: @brs;
   }
 
   textarea {
@@ -59,26 +170,30 @@
   }
 }
 
-.formFieldDate {
+.formField__Date {
   margin-bottom: 15px;
 
   label {
-    margin-bottom: 3px;
     display: block;
+    margin-bottom: 5px;
+    font-size: 0.9em;
   }
 
   input {
     padding: 10px;
     border: none;
+    background: @inputBg;
+    border-radius: @brs;
   }
 }
 
-.formFieldFiles {
+.formField__Files {
   margin-bottom: 15px;
 
   input {
     padding: 8px;
-    background: @bg2;
+    background: @inputBg;
+    border-radius: @brs;
   }
 }
 
@@ -90,9 +205,8 @@
 }
 
 .formBtn {
-  padding: 15px 20px;
-  font-size: 1em;
-  border: none;
+  padding: 12px 16px;
+  font-weight: bold;
 }
 
 /* TaskList */
@@ -104,21 +218,25 @@
 
   & > li {
     &:not(:last-child) {
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
   }
 }
 
 .taskListItem {
-  padding: 15px;
-  border: 1px solid black;
+  position: relative;
+  padding: 30px;
+  background: @bg2;
+  border-radius: @brs;
 
   h3 {
-    margin: 0 0 10px;
+    font-size: 1.1em;
+    margin: 0 85px 10px 0;
   }
 
   p {
-    margin: 0 0 10px;
+    margin: 0 0 15px;
+    font-size: 0.9em;
   }
 
   &--done {
@@ -126,27 +244,89 @@
   }
 
   &--expired {
-    border-color: red;
+    background: rgba(@danger, 0.1);
+    .taskListItem__Date {
+      color: @danger;
+    }
   }
 }
 
-.taskListItemBottom {
+.taskListItem__Bottom {
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
 }
 
-.taskListItemFiles {
-  margin-top: 10px;
+.taskListItem__Date {
+  font-size: 0.8em;
+  font-style: italic;
+  // padding: 2px 7px;
+  // border-radius: 100px;
+  // border: 1px solid;
+}
+
+.taskListItem__Done {
+  label {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    background: @accent;
+    color: @white;
+    border-radius: 100px;
+  }
+  input {
+    display: none;
+    &:checked + label {
+      //
+    }
+  }
+}
+
+.taskListItem__Files {
+  font-size: 0.9em;
 
   & > ul {
-    margin: 5px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2px 0 0;
     padding: 0;
     list-style-type: none;
+    li {
+      &:not(:last-child) {
+        display: inline-flex;
+        margin-right: 4px;
+        &::after {
+          content: ',';
+        }
+      }
+    }
   }
+}
+
+.taskListItem__Btns {
+  position: absolute;
+  top: 28px;
+  right: 63px;
+
+  button {
+    padding: 3px 8px;
+    font-size: 0.8em;
+    text-transform: lowercase;
+
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
+}
+
+.taskListItem__removeBtn {
+  position: absolute;
+  top: 27px;
+  right: 30px;
 }
 
 /* Footer */
 
 footer {
   margin-top: 30px;
+  font-size: 0.9em;
 }
