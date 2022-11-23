@@ -1,7 +1,13 @@
 import Loader from './Loader'
 import TaskListItem from './TaskListItem'
 
-function TaskList({ tasks, changeTaskCompletion, changeTask, removeTask }) {
+function TaskList({
+  tasks,
+  changeTaskCompletion,
+  changeTask,
+  removeTask,
+  removeFile,
+}) {
   return (
     <ul className="taskList">
       {tasks ? (
@@ -26,6 +32,7 @@ function TaskList({ tasks, changeTaskCompletion, changeTask, removeTask }) {
                 changeTaskCompletion={changeTaskCompletion}
                 changeTask={changeTask}
                 removeTask={removeTask}
+                removeFile={removeFile}
               />
             ))
         )

@@ -10,6 +10,7 @@ import { getFirestore } from 'firebase/firestore'
 import {
   collection,
   getDocs,
+  getDoc,
   addDoc,
   doc,
   deleteDoc,
@@ -71,6 +72,20 @@ const deleteFiles = async (files) => {
         console.error('Error deleting files: ', e)
       })
   }
+}
+
+const deleteFile = async (file) => {
+  const desertRef = ref(storage, file)
+
+  return deleteObject(desertRef)
+    .then(() => {
+      console.log('File deleted successfully')
+
+      return true
+    })
+    .catch((e) => {
+      console.error('Error deleting files: ', e)
+    })
 }
 
 export const addNewTodo = async (title, text, date, files) => {
@@ -140,6 +155,37 @@ export const updateTodoCompletion = async (id, isCompleted) => {
     await updateDoc(ref, {
       id,
       completed: isCompleted,
+    })
+
+    console.log('Document updated')
+
+    return true
+  } catch (e) {
+    console.error('Error updating document: ', e)
+  }
+}
+
+export const updateTodoFileList = async (id, file) => {
+  const ref = doc(db, 'todos', id)
+
+  const docRef = doc(db, 'todos', id)
+  const docSnap = await getDoc(docRef)
+  let todo
+
+  if (docSnap.exists()) {
+    todo = docSnap.data()
+  } else {
+    console.log('No such document!')
+  }
+
+  const newUploadedFiles = todo?.uploadedFiles.filter((f) => f !== file)
+
+  deleteFile(file)
+
+  try {
+    await updateDoc(ref, {
+      id,
+      uploadedFiles: newUploadedFiles,
     })
 
     console.log('Document updated')

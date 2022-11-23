@@ -11,6 +11,7 @@ function TaskListItem({
   changeTaskCompletion,
   changeTask,
   removeTask,
+  removeFile,
 }) {
   const [done, setDone] = useState(completed)
   const [editing, setEditing] = useState(false)
@@ -50,6 +51,10 @@ function TaskListItem({
 
   const handleCancel = () => {
     setEditing(false)
+  }
+
+  const handleFileRemove = (fileUrl) => {
+    removeFile(id, fileUrl)
   }
 
   const isExpired =
@@ -112,10 +117,15 @@ function TaskListItem({
                   rel="noreferrer noopener nofollow"
                 >
                   Attachment-{i + 1}
-                </a>
+                </a>{' '}
+                {editing && (
+                  <button onClick={() => handleFileRemove(fileUrl)}>X</button>
+                )}
               </li>
             ))}
           </ul>
+
+          {editing && <input type="file" />}
         </div>
       )}
     </li>
