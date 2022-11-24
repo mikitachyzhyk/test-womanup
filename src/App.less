@@ -42,6 +42,10 @@ textarea {
   }
 }
 
+input[type='file'] {
+  cursor: pointer;
+}
+
 button,
 input::file-selector-button {
   padding: 5px 10px;
@@ -244,7 +248,9 @@ button {
   }
 
   &--expired {
-    background: rgba(@danger, 0.1);
+    // background: rgba(@danger, 0.2);
+    background: mix(@danger, @bg2, 6%);
+    // opacity: 0.5;
     .taskListItem__Date {
       color: @danger;
     }
@@ -254,29 +260,69 @@ button {
 .taskListItem__Bottom {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .taskListItem__Date {
   font-size: 0.8em;
   font-style: italic;
-  // padding: 2px 7px;
-  // border-radius: 100px;
-  // border: 1px solid;
 }
 
 .taskListItem__Done {
   label {
-    padding: 5px 10px;
-    font-size: 0.9em;
-    background: @accent;
-    color: @white;
-    border-radius: 100px;
+    position: relative;
+    display: block;
+    padding: 5px 7px 6px 30px;
+    font-size: 0.8em;
+    // border: 2px solid rgba(@accent, 0.2);
+    color: @accent;
+    border-radius: @brs;
+    cursor: pointer;
+
+    & > span {
+      position: absolute;
+      top: 50%;
+      left: 6px;
+      transform: translateY(-50%);
+      display: block;
+      width: 16px;
+      height: 16px;
+      background: @accent;
+      border-radius: @brs;
+
+      &::before,
+      &::after {
+        display: none;
+        content: '';
+        position: absolute;
+        background: white;
+      }
+
+      &::before {
+        top: 9px;
+        left: 3px;
+        width: 5px;
+        height: 2px;
+        transform: rotate(45deg);
+      }
+      &::after {
+        top: 7px;
+        left: 5px;
+        width: 9px;
+        height: 2px;
+        transform: rotate(-45deg);
+      }
+    }
   }
+
   input {
     display: none;
-    &:checked + label {
-      //
+    &:checked + label > span {
+      &::before,
+      &::after {
+        display: block;
+      }
     }
   }
 }

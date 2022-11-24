@@ -180,7 +180,9 @@ function TaskListItem({
                 checked={done}
                 onChange={handleDoneChange}
               />
-              <label htmlFor={'done-' + id}>done!</label>
+              <label htmlFor={'done-' + id} tabIndex="0">
+                <span></span> I'm done!
+              </label>
             </div>
           </>
         )}
