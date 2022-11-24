@@ -28,8 +28,8 @@ function TaskListItem({
   const filesInputEl = useRef(null)
 
   useEffect(() => {
-    if (uploadedFiles.length !== editFiles.length) setEditFiles(uploadedFiles)
-  }, [uploadedFiles, editFiles])
+    setEditFiles(uploadedFiles)
+  }, [uploadedFiles])
 
   const editTitleHandler = (e) => {
     setEditTitle(e.target.value)
