@@ -95,36 +95,38 @@ function TaskListItem({
 
   return (
     <li className={classes}>
-      {editing ? (
-        <input type="text" value={editTitle} onChange={editTitleHandler} />
-      ) : (
-        <h3>{title}</h3>
-      )}
+      <div className="taskListItem__Title">
+        {editing ? (
+          <input type="text" value={editTitle} onChange={editTitleHandler} />
+        ) : (
+          <h3>{title}</h3>
+        )}
+      </div>
 
-      {editing ? (
-        <textarea onChange={editTextHandler} value={editText} />
-      ) : (
-        <p>{text}</p>
-      )}
+      <div className="taskListItem__Text">
+        {editing ? (
+          <textarea onChange={editTextHandler} value={editText} />
+        ) : (
+          <p>{text}</p>
+        )}
+      </div>
 
-      {editing ? (
-        <div className="taskListItem__Btns">
-          <button onClick={handleSave}>Save</button>
-          <button onClick={handleCancel}>Cancel</button>
-        </div>
-      ) : (
-        <div className="taskListItem__Btns">
+      <div className="taskListItem__Btns">
+        {editing ? (
+          <>
+            <button onClick={handleSave}>Save</button>
+            <button onClick={handleCancel}>Cancel</button>
+          </>
+        ) : (
           <button onClick={handleEdit}>Edit</button>
-        </div>
-      )}
+        )}
+      </div>
 
-      {!editing && (
-        <button
-          className="removeBtn taskListItem__removeBtn"
-          onClick={handleRemove}
-          title="close"
-        ></button>
-      )}
+      <button
+        className="removeBtn taskListItem__removeBtn"
+        onClick={handleRemove}
+        title="close"
+      ></button>
 
       <div className="taskListItem__Files">
         {editFiles.length > 0 && (

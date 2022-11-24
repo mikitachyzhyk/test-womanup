@@ -2,12 +2,12 @@
 @bg2: white;
 @accent: #3259f2;
 @danger: #fa5057;
-@success: #00b75b;
+// @success: #00b75b;
 @white: white;
 @color: #333;
 @focusBg: #ebeffe;
 @focusColor: @accent;
-@inputBg: #f6f8fa;
+@inputBg: rgba(shade(@accent, 50%), 0.04);
 @brs: 3px;
 @fontFamily: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -233,14 +233,9 @@ button {
   background: @bg2;
   border-radius: @brs;
 
-  h3 {
-    font-size: 1.1em;
-    margin: 0 85px 10px 0;
-  }
-
-  p {
-    margin: 0 0 15px;
-    font-size: 0.9em;
+  input:not([type='file']),
+  textarea {
+    background: @inputBg;
   }
 
   &--done {
@@ -248,12 +243,50 @@ button {
   }
 
   &--expired {
-    // background: rgba(@danger, 0.2);
     background: mix(@danger, @bg2, 6%);
-    // opacity: 0.5;
     .taskListItem__Date {
       color: @danger;
     }
+  }
+}
+
+.taskListItem__Title {
+  h3,
+  input {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0 0 10px;
+  }
+
+  h3 {
+    padding-right: 145px;
+  }
+
+  input {
+    width: calc(100% - 145px);
+    margin-right: 145px;
+    padding: 0;
+    border: none;
+  }
+}
+
+.taskListItem__Text {
+  p,
+  textarea {
+    font-size: 0.9em;
+  }
+
+  p {
+    margin: 0 0 15px;
+  }
+
+  textarea {
+    width: 100%;
+    margin: 0 0 12px;
+    padding: 0;
+    min-height: 51px;
+    border: none;
+    resize: none;
   }
 }
 
@@ -262,6 +295,12 @@ button {
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
+
+  input[type='date'] {
+    padding: 0;
+    border: none;
+    font-style: italic;
+  }
 }
 
 .taskListItem__Date {
@@ -336,15 +375,25 @@ button {
     margin: 2px 0 0;
     padding: 0;
     list-style-type: none;
+
     li {
+      display: inline-flex;
+      align-items: center;
       &:not(:last-child) {
-        display: inline-flex;
         margin-right: 4px;
         &::after {
           content: ',';
         }
       }
+
+      .removeBtn {
+        margin-left: 2px;
+      }
     }
+  }
+
+  input {
+    margin-top: 10px;
   }
 }
 
